@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeecms_sys/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+
+</script>
+</head>
+<body>
+<#include "/common/image_upload.html"/>
+
+<div class="box-positon">
+	<div class="rpos">统计信息</div>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<form id="tableForm" method="post"   action="v_view.do" labelWidth="10">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<input type="hidden" name="id" value="${cargo.id}"/>
+<@p.table value=list;plant,i,has_next><#rt/>
+		<@p.column title="序号" align="center">${i+1}</@p.column><#t/>
+	<@p.column title="宜家编号" align="center">
+		<div >${plant.num!''}</div>
+	</@p.column><#t/>
+	<@p.column title = "中文品名" align="center">${plant.name}</@p.column><#t/>
+	<@p.column title = "颜色" align="center">${plant.color}</@p.column><#t/>
+	<@p.column title = "预装数" align="center">${plant.totalCount}</@p.column><#t/>
+	<@p.column title = "实装数" align="center">${plant.alreadyAssembleCount}</@p.column><#t/>
+	<@p.column title = "欠数" align="center">${plant.alreadyAssembleCount-plant.totalCount}</@p.column><#t/>
+</@p.table>
+
+</form>
+
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: 货柜【${cargo.name!''}】管理 </div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='../cargo/v_list.do';" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<form action="../plant/v_list.do" method="post" style="padding-top:5px;">
+<div>
+<input type="hidden" name="id" value="${cargo.id}">
+宜家编号: <input type="text" name="queryNum" value="${queryNum!}" style="width:140px"/>
+中文品名: <input type="text" name="queryName" value="${queryName!}" style="width:140px"/>
+流水号: <input type="text" name="queryTurnoverNum" value="${queryTurnoverNum!}" style="width:200px"/>
+装载状态:<@p.select value=queryStatus headerKey="" headerValue="--全部--" list={"0":"未装载","1":"已装载"}   name="queryStatus" colspan="2" width="100"/><@p.tr/>
+
+<input class="query" type="submit" value="<@s.m "global.query"/>"/>
+</div>
+</form>
+
+<form id="tableForm" method="post"   action="v_view.do" labelWidth="10">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<input type="hidden" name="id" value="${cargo.id}"/>
+<@p.table value=pagination;plant,i,has_next><#rt/>
+	<#if canShow>
+		<@p.column title="ID" align="center">${plant.id}</@p.column><#t/>
+	</#if>
+	<@p.column title="宜家编号" align="center">
+		<div >${plant.num!''}</div>
+	</@p.column><#t/>
+	<@p.column title = "中文品名" align="center">${plant.name}</@p.column><#t/>
+	<@p.column title = "颜色" align="center">${plant.color}</@p.column><#t/>
+	<#if canShow>
+		<@p.column title = "实际装载时间" align="center"><#if plant.loadDate?? >${plant.loadDate?string('yyyy-MM-dd HH:mm:ss')}</#if></@p.column><#t/>
+	</#if>
+	<@p.column title = "装载时间" align="center"><#if plant.loadFormateDate?? >${plant.loadFormateDate?string('yyyy-MM-dd HH:mm:ss')}</#if></@p.column><#t/>
+	<@p.column title = "流水" align="center">${plant.turnoverNum!''}</@p.column><#t/>
+	<@p.column title = "备注" align="center">${plant.remarks!''}</@p.column><#t/>
+</@p.table>
+
+</form>
+</div>
+
+<@cms_perm url="/plant/o_updateImg.do">
+<@p.form id="jvForm" action="o_updateImg.do" labelWidth="10">
+		<input type="hidden" name="pageNo" value="${pageNo!}"/>
+		<input type="hidden" name="cid" value="${cargo.id!}"/>
+<tr>
+<@p.td label="图片集" colspan="2"  noHeight="true">
+<div><input class="add-picture" type="button" onclick="addPicLine();" value="<@s.m "content.picturesAdd"/>"/> 	</div>
+<#list cargo.pictures as p>
+<table id="picTable${p_index+3}" border="0" style="float:left;">
+<tr>
+	<td>
+		<div><input type="text" id="uploadImgPath${p_index+3}" name="picPaths" value="${p.imgPath}" style="width:170px"/> <a href="javascript:void(0);" onclick="$('#picTable${p_index+3}').remove();" class="pn-opt"><@s.m "content.picturesDel"/></a></div>
+		<div>
+		<span id="ufc${p_index+3}" style="position:relative">
+		<input type='text' id='uploadFileText${p_index+3}' size="10"/>  
+		<input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+		<input onchange="$('#uploadFileText${p_index+3}').val(this.value)" size="10" type="file" id="uploadFile${p_index+3}" class="file-button"/>
+		</span> 
+		<input type="button" value="<@s.m "content.fileUpload"/>" onclick="upload(${p_index+3});" class="upload-button"/>
+		</div>
+		<div><textarea style="width:200px;height:60px;" name="picDescs" maxlength="255">${p.description!}</textarea></div>
+	</td>
+	<td><img id="preImg${p_index+3}" src="${base}${p.imgPath}" alt="<@s.m "imageupload.preview"/>" noResize="true" style="width:110px;height:110px;background-color:#ccc;border:1px solid #333"/></td>
+</tr>
+</table>
+<input type="hidden" name="oldpicPaths" value="${p.imgPath!}"/>
+</#list>
+<div id="picBefore" style="clear:both"></div>
+<textarea id="picTable" style="display:none;">
+<table id="picTable{0}" border="0" style="float:left;">
+<tr>
+	<td>
+		<div><input type="text" id="uploadImgPath{0}" name="picPaths" style="width:160px"/> <a href="javascript:void(0);" onclick="$('#picTable{0}').remove();" class="pn-opt"><@s.m "content.picturesDel"/></a></div>
+		<div>
+		<span id="ufc{0}" style="position:relative">
+		<input type='text' id='uploadFileText{0}' size="10"/>  
+		<input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+		<input onchange="$('#uploadFileText{0}').val(this.value)" size="10" type="file" id="uploadFile{0}" class="file-button"/>
+		</span> 
+		<input type="button" value="<@s.m "content.fileUpload"/>" onclick="upload({0});" class="upload-button"/>
+		</div>
+		<div>&lt;textarea style="width:200px;height:60px;" name="picDescs" maxlength="255"&gt;&lt;/textarea&gt;</div>
+	</td>
+	<td><img id="preImg{0}" alt="<@s.m "imageupload.preview"/>" noResize="true" style="width:110px;height:110px;background-color:#ccc;border:1px solid #333"/></td>
+</tr>
+</table>
+</textarea>
+<script type="text/javascript">
+var picIndex = ${cargo.pictures?size} + 3;
+var picTpl = $.format($("#picTable").val());
+function addPicLine() {
+	$('#picBefore').before(picTpl(picIndex++));
+}
+</script>
+</@p.td>
+</tr>
+<tr>
+<@p.td colspan="2">
+	<@p.hidden name="id" value=cargo.id/>
+	<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/>
+</@p.td>
+</tr>
+<tr>
+</tr>
+</@p.form>
+</@cms_perm>
+
+<#include "/common/alert_message.html"/>
+</body>
+</html>

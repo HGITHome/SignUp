@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<!-- 
+Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.6
+Version: 4.5.5
+Author: KeenThemes
+Website: http://www.keenthemes.com/
+Contact: support@keenthemes.com
+Follow: www.twitter.com/keenthemes
+Dribbble: www.dribbble.com/keenthemes
+Like: www.facebook.com/keenthemes
+Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
+License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
+-->
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+
+<head>
+<meta charset="utf-8" />
+<title>东丽装柜系统</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1" name="viewport" />
+<meta content="" name="description" />
+<meta content="" name="author" />
+<!-- BEGIN GLOBAL MANDATORY STYLES -->
+<#assign tb_12=true />
+<#assign tb_12_ul=true  />
+<#assign tb_12_li_1=true />
+<#assign tb_12_arrow=true />
+<#include "/admin_sys/head.html"/>
+
+  <link href="${base}/res/assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+	function getTableForm() {
+		return document.getElementById('tableForm');
+	}
+</script>
+</head>
+<!-- END HEAD -->
+
+<body
+	class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid page-md">
+	<!-- BEGIN HEADER -->
+	<#include "/admin_sys/top.html"/>
+	<!-- END HEADER -->
+	<!-- BEGIN HEADER & CONTENT DIVIDER -->
+	<div class="clearfix"></div>
+	<!-- END HEADER & CONTENT DIVIDER -->
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container">
+		<!-- BEGIN SIDEBAR -->
+		<#include "/admin_sys/left.html"/>
+		<!-- END SIDEBAR -->
+		<div class="page-content-wrapper">
+			<!-- BEGIN CONTENT BODY -->
+			<div style="min-height:1022px" class="page-content">
+				<!-- page bar start -->
+				<div class="page-bar">
+
+					<ul class="page-breadcrumb">
+						<li><a href="../cargo/v_list.do">货柜管理</a> <i class="fa fa-angle-right"></i>
+						</li>
+						<li><span>托盘管理</span></li>
+					</ul>
+				</div>
+				
+				<div class="row ">
+					<div class="col-md-12">
+						<!-- BEGIN SAMPLE FORM PORTLET-->
+						<div class="portlet box green bordered">
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-comments"></i>统计
+								</div>
+								<div class="tools">
+									<a class="collapse" href="" data-original-title="" title="">
+									</a> <a class="remove" href="" data-original-title="" title="">
+									</a>
+								</div>
+							</div>
+							<div class="portlet-body">
+
+								<div class="table-scrollable">
+										<table class="table table-bordered table-hover dataTable">
+											<thead>
+												<tr>
+													<th>序号</th>
+													<th>宜家编号</th>
+													<th>中文品名</th>
+													<th>颜色</th>
+													
+															<th>预装数</th>
+													<th>实装数</th>
+													<th>欠数</th>
+												</tr>
+											</thead>
+											<tbody>
+											<#assign totalCount=0/>
+											<#assign alreadyAssembleCount=0/>
+											<#list list as plant>
+												<#assign totalCount=totalCount+plant.totalCount/>
+												<#assign alreadyAssembleCount=alreadyAssembleCount+plant.alreadyAssembleCount/>
+												<tr>
+													<td>${plant_index+1}</td>
+													<td>${plant.num!''}</td>
+													<td>${plant.name}</td>
+													<td>${plant.color}</td>
+													<td>${plant.totalCount}</td>
+													<td>${plant.alreadyAssembleCount}</td>
+													<td>${plant.alreadyAssembleCount-plant.totalCount}</td>
+												</tr>
+
+												</#list>
+
+												<tr>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td>总计</td>
+													<td>${totalCount}</td>
+													<td>${alreadyAssembleCount}</td>
+													<td>${alreadyAssembleCount -totalCount }</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+
+							</div>
+						</div>
+						<!-- END SAMPLE FORM PORTLET-->
+					</div>
+					
+				</div>
+				
+				
+
+				<div class="row ">
+					<div class="col-md-12">
+						<!-- BEGIN SAMPLE FORM PORTLET-->
+						<div class="portlet box red bordered">
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-comments"></i>筛选
+								</div>
+								<div class="tools">
+									<a class="collapse" href="" data-original-title="" title="">
+									</a> <a class="remove" href="" data-original-title="" title="">
+									</a>
+								</div>
+							</div>
+							<div class="portlet-body">
+
+								<form action="v_list.do" method="post" class="form-inline" >
+									<input type="hidden" name="id" value="${cargo.id}">
+										<div class="form-group">
+                                            <input type="text" class="form-control" placeholder="宜家编号" name="queryNum" value="${queryNum!}">
+                                    	</div>
+                                    	<div class="form-group">
+                                            <input type="text" class="form-control" placeholder="中文品名" name="queryName" value="${queryName!}">
+                                    	</div>
+                                    	<div class="form-group">
+                                            <input type="text" class="form-control" placeholder="流水号" name="queryTurnoverNum" value="${queryTurnoverNum!}">
+                                    	</div>
+                                    	 <div class="form-group">
+		                                           <select class="bs-select form-control input-small "   name="queryStatus"  data-style="btn-primary">
+													 <option value="">全部</option>	 		
+													<option value="0" <#if queryStatus?? && queryStatus==0>selected="selected"</#if>>未装载</option>
+													<option value="1" <#if queryStatus?? && queryStatus==1>selected="selected"</#if>>已装载</option>
+												 </select>
+										  </div>
+										  	 <input
+											class="btn red" type="submit" value="查询"/>
+								</form>
+
+							</div>
+						</div>
+						<!-- END SAMPLE FORM PORTLET-->
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<!-- BEGIN SAMPLE TABLE PORTLET-->
+						<div class="portlet box blue">
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-comments"></i>托盘详情
+								</div>
+								<div class="tools">
+								 <div class="dt-buttons">
+									<a class="dt-button buttons-print btn white  btn-outline" href="../cargo/v_list.do" tabindex="0" ><span>返回</span></a>
+								</div>
+                                    </div>
+							</div>
+
+							<div class="portlet-body">
+								<form id="tableForm" method="post">
+								<input type="hidden" name="id" value="${cargo.id}"/>
+									<input type="hidden" name="pageNo" value="${pageNo!}" />
+									<div class="table-scrollable">
+										<table
+											class="table table-bordered table-hover dataTable table-checkable ">
+											<thead>
+												<tr>
+													<#if canShow>
+																	<th>ID</th>
+														</#if>
+													<th>工厂货号</th>
+													<th>宜家编号</th>
+													<th>中文品名</th>
+													<th>颜色</th>
+													
+													<#if canShow>
+															<th>实际装载时间</th>
+														</#if>
+													<th>装载时间</th>
+													<th>流水</th>
+												</tr>
+											</thead>
+											<tbody>
+												<#list pagination.list as plant>
+												<tr>
+													<#if canShow>
+															<td>${plant.id}</td>
+														</#if>
+													<td>${plant.factoryNum!''}</td>
+													<td>${plant.num!''}</td>
+													<td>${plant.name}</td>
+													<td>${plant.color}</td>
+													<#if canShow><td>
+															<#if plant.loadDate?? >${plant.loadDate?string('yyyy-MM-dd HH:mm:ss')}</#if>
+														</td></#if>
+
+													<td><#if plant.loadFormateDate?? >${plant.loadFormateDate?string('yyyy-MM-dd HH:mm:ss')}</#if></td>
+													<td>${plant.turnoverNum!''}</td>
+												</tr>
+
+												</#list>
+											</tbody>
+										</table>
+									</div>
+									<@p.pagination listAction="../plant/v_list.do" value=pagination;cmsCargo,i,has_next  >
+									</@p.pagination>
+								</form>
+							</div>
+
+
+						</div>
+						<!-- END SAMPLE TABLE PORTLET-->
+					</div>
+
+				</div>
+				
+				<div class="row">
+				<#if cargo.remarks??>
+				<div class="col-md-12">
+                                <div class="portlet-body">
+                                    <div class="note note-warning">
+                                        <h4 class="block">备注</h4>
+                                        <p>
+	                                        ${cargo.remarks!''}
+                                        </p>
+                                    </div>
+                                </div>
+					</div>
+					</#if>
+                        <#list cargo.pictures as p>
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                            <div class="portlet light portlet-fit bordered">
+                                  <div class="portlet-body">
+                                    <div class="mt-element-overlay">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="mt-overlay-6">
+                                                    <img src="${base}${p.imgPath}" style="height:300px;background-color:#ccc;border:1px solid #333">
+                                           			   <div class="mt-overlay">
+                                                        <h2>${p.description!''}</h2>
+                                                        <p>
+                                                            <a class="mt-info uppercase btn default btn-outline" target="_blank"  href="${base}${p.imgPath}">查看</a>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </#list>
+                        
+                    </div>
+
+			</div>
+		</div>
+		<!-- BEGIN CONTENT -->
+
+		<#include "/common/bootAlert_message.html"/>
+		<!-- END CONTENT -->
+	<script src="${base}/res/assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
+			
+        <script src="${base}/res/assets/pages/scripts/components-bootstrap-select.min.js" type="text/javascript"></script>			
+	</div>
+	<!-- END CONTAINER -->
+</body>
+
+</html>

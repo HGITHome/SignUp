@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+	default-lazy-init="true">
+	<!-- 国际化和'热'加载文件(不用重启应用). -->
+	<bean id="tplMessageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="cacheSeconds" value="0"/>
+		<property name="basenames">
+			<list>
+				<value>/WEB-INF/languages/jeecms_tpl/messages</value>
+			</list>
+		</property>
+	</bean>
+	<!--标签-->
+	
+	<!--后台权限标签-->
+	<bean id="cms_perm" class="com.dgut.main.web.PermistionDirective"/>
+	
+	<!--SERVICE-->
+		<bean id="adminMng" class="com.dgut.main.manager.impl.AdminMngImpl"/>
+		<bean id="adminLogMng" class="com.dgut.main.manager.impl.AdminLogMngImpl"/>
+		<bean id="roleMng" class="com.dgut.main.manager.impl.RoleMngImpl"/>
+		<bean id="adminAuthenMng" class="com.dgut.main.manager.impl.AuthenticationMngImpl"/>
+		<bean id="cityMng" class="com.dgut.main.manager.impl.CityMngImpl"/>
+		<bean id="bikeTypeMng" class="com.dgut.main.manager.impl.BikeTypeMngImpl"/>
+		
+		<bean id="memberMng" class="com.dgut.member.manager.impl.MemberMngImpl"/>
+		<bean id="memberLogMng" class="com.dgut.member.manager.impl.MemberLogMngImpl"/>
+		<bean id="memberAuthenMng" class="com.dgut.member.manager.impl.MemberAuthenticationMngImpl"/>
+	<!--MANAGER-->
+<!-- 	<bean id="contentTagMng" class="com.jeecms.cms.manager.main.impl.ContentTagMngImpl"/>
+	<bean id="contentTypeMng" class="com.jeecms.cms.manager.main.impl.ContentTypeMngImpl"/>
+	<bean id="contentExtMng" class="com.jeecms.cms.manager.main.impl.ContentExtMngImpl"/>
+	<bean id="contentTxtMng" class="com.jeecms.cms.manager.main.impl.ContentTxtMngImpl"/>
+	<bean id="contentCountMng" class="com.jeecms.cms.manager.main.impl.ContentCountMngImpl"/>
+	<bean id="contentCheckMng" class="com.jeecms.cms.manager.main.impl.ContentCheckMngImpl"/>
+	<bean id="cmsSiteMng" class="com.jeecms.cms.manager.main.impl.CmsSiteMngImpl"/>
+	<bean id="cmsConfigMng" class="com.jeecms.cms.manager.main.impl.CmsConfigMngImpl"/>
+	<bean id="cmsUserMng" class="com.jeecms.cms.manager.main.impl.CmsUserMngImpl"/>
+	<bean id="cmsUserExtMng" class="com.jeecms.cms.manager.main.impl.CmsUserExtMngImpl"/>
+	<bean id="cmsUserSiteMng" class="com.jeecms.cms.manager.main.impl.CmsUserSiteMngImpl"/>
+	<bean id="cmsModelMng" class="com.jeecms.cms.manager.main.impl.CmsModelMngImpl"/>
+	<bean id="cmsModelItemMng" class="com.jeecms.cms.manager.main.impl.CmsModelItemMngImpl"/>
+	<bean id="cmsTopicMng" class="com.jeecms.cms.manager.main.impl.CmsTopicMngImpl"/>
+	<bean id="cmsGroupMng" class="com.jeecms.cms.manager.main.impl.CmsGroupMngImpl"/>
+	<bean id="cmsRoleMng" class="com.jeecms.cms.manager.main.impl.CmsRoleMngImpl"/>
+	<bean id="cmsLogMng" class="com.jeecms.cms.manager.main.impl.CmsLogMngImpl"/>
+	
+	<bean id="cmsAcquisitionMng" class="com.jeecms.cms.manager.assist.impl.CmsAcquisitionMngImpl"/>
+	<bean id="cmsAcquisitionHistoryMng" class="com.jeecms.cms.manager.assist.impl.CmsAcquisitionHistoryMngImpl"/>
+	<bean id="cmsAcquisitionTempMng" class="com.jeecms.cms.manager.assist.impl.CmsAcquisitionTempMngImpl"/>
+	<bean id="cmsCommentMng" class="com.jeecms.cms.manager.assist.impl.CmsCommentMngImpl"/>
+	<bean id="cmsCommentExtMng" class="com.jeecms.cms.manager.assist.impl.CmsCommentExtMngImpl"/>
+	<bean id="cmsKeywordMng" class="com.jeecms.cms.manager.assist.impl.CmsKeywordMngImpl"/>
+	<bean id="cmsSensitivityMng" class="com.jeecms.cms.manager.assist.impl.CmsSensitivityMngImpl"/>
+	<bean id="cmsResourceMng" class="com.jeecms.cms.manager.assist.impl.CmsResourceMngImpl"/>
+	<bean id="cmsGuestbookCtgMng" class="com.jeecms.cms.manager.assist.impl.CmsGuestbookCtgMngImpl"/>
+	<bean id="cmsGuestbookExtMng" class="com.jeecms.cms.manager.assist.impl.CmsGuestbookExtMngImpl"/>
+	<bean id="cmsGuestbookMng" class="com.jeecms.cms.manager.assist.impl.CmsGuestbookMngImpl"/>	
+	<bean id="cmsVoteTopicMng" class="com.jeecms.cms.manager.assist.impl.CmsVoteTopicMngImpl"/>
+	<bean id="cmsVoteItemMng" class="com.jeecms.cms.manager.assist.impl.CmsVoteItemMngImpl"/>
+	<bean id="cmsVoteRecordMng" class="com.jeecms.cms.manager.assist.impl.CmsVoteRecordMngImpl"/>
+	<bean id="cmsFriendlinkCtgMng" class="com.jeecms.cms.manager.assist.impl.CmsFriendlinkCtgMngImpl"/>
+	<bean id="cmsFriendlinkMng" class="com.jeecms.cms.manager.assist.impl.CmsFriendlinkMngImpl"/>
+	<bean id="cmsAdvertisingSpaceMng" class="com.jeecms.cms.manager.assist.impl.CmsAdvertisingSpaceMngImpl"/>
+	<bean id="cmsAdvertisingMng" class="com.jeecms.cms.manager.assist.impl.CmsAdvertisingMngImpl"/>
+	<bean id="cmsMessageMng" class="com.jeecms.cms.manager.assist.impl.CmsMessageMngImpl"/>
+	<bean id="cmsReceiverMessageMng" class="com.jeecms.cms.manager.assist.impl.CmsReceiverMessageMngImpl"/>
+	
+	<bean id="cmsSiteFlowMng" class="com.jeecms.cms.manager.assist.impl.CmsSiteFlowMngImpl"/>
+	
+	<bean id="cmsDataMng" class="com.jeecms.cms.manager.assist.impl.CmsDataMngImpl"/>
+	<bean id="cmsDataBackMng" class="com.jeecms.cms.manager.assist.impl.CmsDataBackMngImpl"/>
+	<bean id="cmsFileMngImpl" class="com.jeecms.cms.manager.assist.impl.CmsFileMngImpl"/>
+	<bean id="cmsWorkLoadStatisticSvc" class="com.jeecms.cms.statistic.workload.CmsWorkLoadStatisticSvcImpl"/> -->
+	
+	<bean id="adminDao" class="com.dgut.main.dao.impl.AdminDaoImpl"/>
+	<bean id="adminLogDao" class="com.dgut.main.dao.impl.AdminLogDaoImpl"/>
+	<bean id="roleDao" class="com.dgut.main.dao.impl.RoleDaoImpl"/>
+	<bean id="adminAuthenDao" class="com.dgut.main.dao.impl.AuthenticationDaoImpl"/>
+	<bean id="cityDao" class="com.dgut.main.dao.impl.CityDaoImpl"/>
+	<bean id="bikeTypeDao" class="com.dgut.main.dao.impl.BikeTypeDaoImpl"/>
+	
+	<bean id="memberDao" class="com.dgut.member.dao.impl.MemberDaoImpl"/>
+	<bean id="memberLogDao" class="com.dgut.member.dao.impl.MemberLogDaoImpl"/>
+	<bean id="memberAuthenDao" class="com.dgut.member.dao.impl.MemberAuthenticationDaoImpl"/>
+	<!--DAO-->
+	<!-- <bean id="channelDao" class="com.jeecms.cms.dao.main.impl.ChannelDaoImpl"/>
+	<bean id="channelExtDao" class="com.jeecms.cms.dao.main.impl.ChannelExtDaoImpl"/>
+	<bean id="channelTxtDao" class="com.jeecms.cms.dao.main.impl.ChannelTxtDaoImpl"/>
+	<bean id="contentDao" class="com.jeecms.cms.dao.main.impl.ContentDaoImpl"/>
+	<bean id="contentTagDao" class="com.jeecms.cms.dao.main.impl.ContentTagDaoImpl"/>
+	<bean id="contentTypeDao" class="com.jeecms.cms.dao.main.impl.ContentTypeDaoImpl"/>
+	<bean id="contentExtDao" class="com.jeecms.cms.dao.main.impl.ContentExtDaoImpl"/>
+	<bean id="contentTxtDao" class="com.jeecms.cms.dao.main.impl.ContentTxtDaoImpl"/>
+	<bean id="contentCountDao" class="com.jeecms.cms.dao.main.impl.ContentCountDaoImpl"/>
+	<bean id="contentCheckDao" class="com.jeecms.cms.dao.main.impl.ContentCheckDaoImpl"/>
+	<bean id="cmsSiteDao" class="com.jeecms.cms.dao.main.impl.CmsSiteDaoImpl"/>
+	<bean id="cmsConfigDao" class="com.jeecms.cms.dao.main.impl.CmsConfigDaoImpl"/>
+	<bean id="cmsUserDao" class="com.jeecms.cms.dao.main.impl.CmsUserDaoImpl"/>
+	<bean id="cmsUserExtDao" class="com.jeecms.cms.dao.main.impl.CmsUserExtDaoImpl"/>
+	<bean id="cmsUserSiteDao" class="com.jeecms.cms.dao.main.impl.CmsUserSiteDaoImpl"/>
+	<bean id="cmsModelDao" class="com.jeecms.cms.dao.main.impl.CmsModelDaoImpl"/>
+	<bean id="cmsModelItemDao" class="com.jeecms.cms.dao.main.impl.CmsModelItemDaoImpl"/>
+	<bean id="cmsTopicDao" class="com.jeecms.cms.dao.main.impl.CmsTopicDaoImpl"/>
+	<bean id="cmsGroupDao" class="com.jeecms.cms.dao.main.impl.CmsGroupDaoImpl"/>
+	<bean id="cmsRoleDao" class="com.jeecms.cms.dao.main.impl.CmsRoleDaoImpl"/>
+	<bean id="cmsLogDao" class="com.jeecms.cms.dao.main.impl.CmsLogDaoImpl"/>
+	
+	<bean id="cmsAcquisitionDao" class="com.jeecms.cms.dao.assist.impl.CmsAcquisitionDaoImpl"/>
+	<bean id="cmsAcquisitionHistoryDao" class="com.jeecms.cms.dao.assist.impl.CmsAcquisitionHistoryDaoImpl"/>
+	<bean id="cmsAcquisitionTempDao" class="com.jeecms.cms.dao.assist.impl.CmsAcquisitionTempDaoImpl"/>
+	<bean id="cmsCommentDao" class="com.jeecms.cms.dao.assist.impl.CmsCommentDaoImpl"/>
+	<bean id="cmsCommentExtDao" class="com.jeecms.cms.dao.assist.impl.CmsCommentExtDaoImpl"/>
+	<bean id="cmsKeywordDao" class="com.jeecms.cms.dao.assist.impl.CmsKeywordDaoImpl"/>
+	<bean id="cmsSensitivityDao" class="com.jeecms.cms.dao.assist.impl.CmsSensitivityDaoImpl"/>
+	<bean id="cmsGuestbookCtgDao" class="com.jeecms.cms.dao.assist.impl.CmsGuestbookCtgDaoImpl"/>
+	<bean id="cmsGuestbookExtDao" class="com.jeecms.cms.dao.assist.impl.CmsGuestbookExtDaoImpl"/>
+	<bean id="cmsGuestbookDao" class="com.jeecms.cms.dao.assist.impl.CmsGuestbookDaoImpl"/>	
+	<bean id="cmsVoteTopicDao" class="com.jeecms.cms.dao.assist.impl.CmsVoteTopicDaoImpl"/>
+	<bean id="cmsVoteItemDao" class="com.jeecms.cms.dao.assist.impl.CmsVoteItemDaoImpl"/>
+	<bean id="cmsVoteRecordDao" class="com.jeecms.cms.dao.assist.impl.CmsVoteRecordDaoImpl"/>
+	<bean id="cmsFriendlinkCtgDao" class="com.jeecms.cms.dao.assist.impl.CmsFriendlinkCtgDaoImpl"/>
+	<bean id="cmsFriendlinkDao" class="com.jeecms.cms.dao.assist.impl.CmsFriendlinkDaoImpl"/>
+	<bean id="cmsAdvertisingSpaceDao" class="com.jeecms.cms.dao.assist.impl.CmsAdvertisingSpaceDaoImpl"/>
+	<bean id="cmsAdvertisingDao" class="com.jeecms.cms.dao.assist.impl.CmsAdvertisingDaoImpl"/>
+	<bean id="cmsMessageDao" class="com.jeecms.cms.dao.assist.impl.CmsMessageDaoImpl"/>
+	<bean id="cmsReceiverMessageDao" class="com.jeecms.cms.dao.assist.impl.CmsReceiverMessageDaoImpl"/>
+	
+	<bean id="luceneContentDao" class="com.jeecms.cms.lucene.LuceneContentDaoImpl"/>
+	<bean id="staticPageDao" class="com.jeecms.cms.staticpage.StaticPageDaoImpl"/>
+	<bean id="cmsStatisticDao" class="com.jeecms.cms.statistic.CmsStatisticDaoImpl"/>
+	
+	<bean id="cmsSiteFlowDao" class="com.jeecms.cms.dao.assist.impl.CmsSiteFlowDaoImpl"/>
+	
+	<bean id="cmsDataDaoBack" class="com.jeecms.cms.dao.assist.impl.CmsDataBackDaoImpl">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<bean id="cmsFileDaoImpl" class="com.jeecms.cms.dao.assist.impl.CmsFileDaoImpl"/>
+	<bean id="cmsWorkLoadStatisticDao" class="com.jeecms.cms.statistic.workload.CmsWorkLoadStatisticDaoImpl"/> -->
+</beans>
